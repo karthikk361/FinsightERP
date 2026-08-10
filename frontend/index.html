@@ -1,0 +1,1172 @@
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Company ERP</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6f8;
+        }
+
+        header {
+            background: #1f2937;
+            color: white;
+            padding: 20px;
+            font-size: 24px;
+        }
+
+        nav {
+            background: white;
+            padding: 15px 30px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        nav button {
+            margin-right: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        .cards {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            width: 180px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            margin-top: 0;
+        }
+
+        .number {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        input {
+            padding: 10px;
+            margin: 5px;
+        }
+
+        button {
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #eee;
+        }
+
+        #message,
+        #inventoryMessage,
+        #saleMessage,
+        #loginMessage {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        #loginPage {
+            max-width: 400px;
+            margin: 100px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        #loginPage input {
+            display: block;
+            width: 90%;
+            margin: 10px 0;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= LOGIN ================= -->
+
+<div id="loginPage">
+
+    <h1>Company ERP Login</h1>
+
+    <input
+        id="loginUsername"
+        type="text"
+        placeholder="Username"
+    >
+
+    <input
+        id="loginPassword"
+        type="password"
+        placeholder="Password"
+    >
+
+    <button onclick="login()">
+        Login
+    </button>
+
+    <div id="loginMessage"></div>
+
+</div>
+
+
+
+<!-- ================= ERP SYSTEM ================= -->
+
+<div id="erpSystem" style="display: none;">
+
+
+<header>
+    Company ERP
+</header>
+
+
+<nav>
+
+    <button onclick="showSection('dashboard')">
+        Dashboard
+    </button>
+
+    <button onclick="showSection('products')">
+        Products
+    </button>
+
+    <button onclick="showSection('inventory')">
+        Inventory
+    </button>
+
+    <button onclick="showSection('sales')">
+        Sales
+    </button>
+
+    <button onclick="logout()">
+        Logout
+    </button>
+
+</nav>
+
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<div id="dashboard" class="container section active">
+
+    <h1>Dashboard</h1>
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h3>Products</h3>
+
+            <div class="number" id="totalProducts">
+                -
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Inventory</h3>
+
+            <div class="number" id="totalInventory">
+                -
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Sales</h3>
+
+            <div class="number" id="totalSales">
+                -
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Sales Value</h3>
+
+            <div class="number" id="totalSalesValue">
+                -
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <button onclick="loadDashboard()">
+        Refresh Dashboard
+    </button>
+
+</div>
+
+
+
+<!-- ================= PRODUCTS ================= -->
+
+<div id="products" class="container section">
+
+    <h1>Products</h1>
+
+    <h2>Add Product</h2>
+
+
+    <input
+        id="productName"
+        placeholder="Product name"
+    >
+
+
+    <input
+        id="category"
+        placeholder="Category"
+    >
+
+
+    <input
+        id="price"
+        type="number"
+        placeholder="Price"
+    >
+
+
+    <input
+        id="quantity"
+        type="number"
+        placeholder="Quantity"
+    >
+
+
+    <button onclick="addProduct()">
+        Add Product
+    </button>
+
+
+    <div id="message"></div>
+
+
+    <h2>Product List</h2>
+
+
+    <button onclick="loadProducts()">
+        Refresh Products
+    </button>
+
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>ID</th>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Quantity</th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody id="productTable">
+        </tbody>
+
+    </table>
+
+</div>
+
+
+
+<!-- ================= INVENTORY ================= -->
+
+<div id="inventory" class="container section">
+
+    <h1>Inventory</h1>
+
+    <h2>Add Stock</h2>
+
+
+    <input
+        id="inventoryProductId"
+        type="number"
+        placeholder="Product ID"
+    >
+
+
+    <input
+        id="inventoryWarehouse"
+        placeholder="Warehouse"
+        value="Main Warehouse"
+    >
+
+
+    <input
+        id="inventoryQuantity"
+        type="number"
+        placeholder="Quantity"
+    >
+
+
+    <button onclick="addInventory()">
+        Add Stock
+    </button>
+
+
+    <div id="inventoryMessage"></div>
+
+
+    <h2>Current Inventory</h2>
+
+
+    <button onclick="loadInventory()">
+        Refresh Inventory
+    </button>
+
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>ID</th>
+                <th>Product</th>
+                <th>Warehouse</th>
+                <th>Quantity</th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody id="inventoryTable">
+        </tbody>
+
+    </table>
+
+</div>
+
+
+
+<!-- ================= SALES ================= -->
+
+<div id="sales" class="container section">
+
+    <h1>Sales</h1>
+
+    <h2>Create Sale</h2>
+
+
+    <input
+        id="saleProductId"
+        type="number"
+        placeholder="Product ID"
+    >
+
+
+    <input
+        id="saleQuantity"
+        type="number"
+        placeholder="Quantity"
+    >
+
+
+    <input
+        id="salePrice"
+        type="number"
+        placeholder="Sale Price"
+    >
+
+
+    <button onclick="createSale()">
+        Make Sale
+    </button>
+
+
+    <div id="saleMessage"></div>
+
+
+    <h2>Sales History</h2>
+
+
+    <button onclick="loadSales()">
+        Refresh Sales
+    </button>
+
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Sale ID</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Sale Price</th>
+                <th>Date</th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody id="salesTable">
+        </tbody>
+
+    </table>
+
+</div>
+
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+
+const API = "http://127.0.0.1:8000";
+
+
+
+async function login() {
+
+    const username =
+        document.getElementById(
+            "loginUsername"
+        ).value;
+
+    const password =
+        document.getElementById(
+            "loginPassword"
+        ).value;
+
+
+    try {
+
+        const response =
+            await fetch(
+                API + "/login",
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (response.ok) {
+
+            document.getElementById(
+                "loginPage"
+            ).style.display = "none";
+
+
+            document.getElementById(
+                "erpSystem"
+            ).style.display = "block";
+
+
+            document.getElementById(
+                "loginMessage"
+            ).textContent = "";
+
+
+            loadDashboard();
+
+        } else {
+
+            document.getElementById(
+                "loginMessage"
+            ).textContent =
+                result.detail ||
+                "Login failed.";
+
+        }
+
+
+    } catch (error) {
+
+        document.getElementById(
+            "loginMessage"
+        ).textContent =
+            "Could not connect to ERP.";
+
+        console.error(error);
+
+    }
+
+}
+
+
+
+function logout() {
+
+    document.getElementById(
+        "erpSystem"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "loginPage"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "loginUsername"
+    ).value = "";
+
+
+    document.getElementById(
+        "loginPassword"
+    ).value = "";
+
+}
+
+
+
+function showSection(sectionName) {
+
+    document
+        .querySelectorAll(".section")
+        .forEach(section => {
+
+            section.classList.remove("active");
+
+        });
+
+
+    document
+        .getElementById(sectionName)
+        .classList.add("active");
+
+
+    if (sectionName === "dashboard") {
+
+        loadDashboard();
+
+    }
+
+
+    if (sectionName === "products") {
+
+        loadProducts();
+
+    }
+
+
+    if (sectionName === "inventory") {
+
+        loadInventory();
+
+    }
+
+
+    if (sectionName === "sales") {
+
+        loadSales();
+
+    }
+
+}
+
+
+
+async function loadDashboard() {
+
+    try {
+
+        const response =
+            await fetch(
+                API + "/dashboard"
+            );
+
+
+        const data =
+            await response.json();
+
+
+        document.getElementById(
+            "totalProducts"
+        ).textContent =
+            data.total_products;
+
+
+        document.getElementById(
+            "totalInventory"
+        ).textContent =
+            data.total_inventory;
+
+
+        document.getElementById(
+            "totalSales"
+        ).textContent =
+            data.total_sales;
+
+
+        document.getElementById(
+            "totalSalesValue"
+        ).textContent =
+            data.total_sales_value;
+
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+
+async function loadProducts() {
+
+    try {
+
+        const response =
+            await fetch(
+                API + "/products"
+            );
+
+
+        const products =
+            await response.json();
+
+
+        const table =
+            document.getElementById(
+                "productTable"
+            );
+
+
+        table.innerHTML = "";
+
+
+        products.forEach(product => {
+
+            const row = `
+
+                <tr>
+
+                    <td>
+                        ${product.product_id}
+                    </td>
+
+                    <td>
+                        ${product.product_name}
+                    </td>
+
+                    <td>
+                        ${product.category}
+                    </td>
+
+                    <td>
+                        ${product.price}
+                    </td>
+
+                    <td>
+                        ${product.quantity}
+                    </td>
+
+                </tr>
+
+            `;
+
+
+            table.innerHTML += row;
+
+        });
+
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+
+async function addProduct() {
+
+    const product = {
+
+        product_name:
+            document.getElementById(
+                "productName"
+            ).value,
+
+        category:
+            document.getElementById(
+                "category"
+            ).value,
+
+        price:
+            Number(
+                document.getElementById(
+                    "price"
+                ).value
+            ),
+
+        quantity:
+            Number(
+                document.getElementById(
+                    "quantity"
+                ).value
+            )
+
+    };
+
+
+    try {
+
+        const response =
+            await fetch(
+                API + "/products",
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(product)
+
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        document.getElementById(
+            "message"
+        ).textContent =
+            result.message;
+
+
+        document.getElementById(
+            "productName"
+        ).value = "";
+
+
+        document.getElementById(
+            "category"
+        ).value = "";
+
+
+        document.getElementById(
+            "price"
+        ).value = "";
+
+
+        document.getElementById(
+            "quantity"
+        ).value = "";
+
+
+        loadProducts();
+
+        loadDashboard();
+
+
+    } catch (error) {
+
+        document.getElementById(
+            "message"
+        ).textContent =
+            "Could not connect to ERP.";
+
+
+        console.error(error);
+
+    }
+
+}
+
+
+
+async function loadInventory() {
+
+    try {
+
+        const response =
+            await fetch(
+                API + "/inventory"
+            );
+
+
+        const inventory =
+            await response.json();
+
+
+        const table =
+            document.getElementById(
+                "inventoryTable"
+            );
+
+
+        table.innerHTML = "";
+
+
+        inventory.forEach(item => {
+
+            const row = `
+
+                <tr>
+
+                    <td>
+                        ${item.inventory_id}
+                    </td>
+
+                    <td>
+                        ${item.product_name}
+                    </td>
+
+                    <td>
+                        ${item.warehouse}
+                    </td>
+
+                    <td>
+                        ${item.quantity}
+                    </td>
+
+                </tr>
+
+            `;
+
+
+            table.innerHTML += row;
+
+        });
+
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+
+async function addInventory() {
+
+    const item = {
+
+        product_id:
+            Number(
+                document.getElementById(
+                    "inventoryProductId"
+                ).value
+            ),
+
+        warehouse:
+            document.getElementById(
+                "inventoryWarehouse"
+            ).value,
+
+        quantity:
+            Number(
+                document.getElementById(
+                    "inventoryQuantity"
+                ).value
+            )
+
+    };
+
+
+    try {
+
+        const response =
+            await fetch(
+                API + "/inventory",
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(item)
+
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        document.getElementById(
+            "inventoryMessage"
+        ).textContent =
+            result.message;
+
+
+        document.getElementById(
+            "inventoryQuantity"
+        ).value = "";
+
+
+        loadInventory();
+
+        loadDashboard();
+
+
+    } catch (error) {
+
+        document.getElementById(
+            "inventoryMessage"
+        ).textContent =
+            "Could not connect to ERP.";
+
+
+        console.error(error);
+
+    }
+
+}
+
+
+
+async function loadSales() {
+
+    try {
+
+        const response =
+            await fetch(
+                API + "/sales"
+            );
+
+
+        const sales =
+            await response.json();
+
+
+        const table =
+            document.getElementById(
+                "salesTable"
+            );
+
+
+        table.innerHTML = "";
+
+
+        sales.forEach(sale => {
+
+            const row = `
+
+                <tr>
+
+                    <td>
+                        ${sale.sale_id}
+                    </td>
+
+                    <td>
+                        ${sale.product_name}
+                    </td>
+
+                    <td>
+                        ${sale.quantity}
+                    </td>
+
+                    <td>
+                        ${sale.sale_price}
+                    </td>
+
+                    <td>
+                        ${sale.sale_date}
+                    </td>
+
+                </tr>
+
+            `;
+
+
+            table.innerHTML += row;
+
+        });
+
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+
+async function createSale() {
+
+    const sale = {
+
+        product_id:
+            Number(
+                document.getElementById(
+                    "saleProductId"
+                ).value
+            ),
+
+        quantity:
+            Number(
+                document.getElementById(
+                    "saleQuantity"
+                ).value
+            ),
+
+        sale_price:
+            Number(
+                document.getElementById(
+                    "salePrice"
+                ).value
+            )
+
+    };
+
+
+    try {
+
+        const response =
+            await fetch(
+                API + "/sales",
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(sale)
+
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        document.getElementById(
+            "saleMessage"
+        ).textContent =
+            result.message ||
+            result.detail;
+
+
+        document.getElementById(
+            "saleQuantity"
+        ).value = "";
+
+
+        loadSales();
+
+        loadInventory();
+
+        loadDashboard();
+
+
+    } catch (error) {
+
+        document.getElementById(
+            "saleMessage"
+        ).textContent =
+            "Could not connect to ERP.";
+
+
+        console.error(error);
+
+    }
+
+}
+
+
+</script>
+
+</div>
+
+</body>
+
+</html>
+```
