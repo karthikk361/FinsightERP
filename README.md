@@ -1,14 +1,14 @@
-FinSightERP
+**FinSightERP**
 
 A full-stack ERP system for managing products, inventory, sales, user authentication, and business transaction data.
 
-Overview
+**Overview**
 
 FinSightERP was developed as a software engineering project to demonstrate how a business management system can connect a web frontend, REST APIs, backend business logic, and a relational database.
 
 The system supports core business workflows from product creation through inventory management and sales transactions.
 
-Features
+**Features**
 User authentication
 Product management
 Inventory management
@@ -21,35 +21,36 @@ RESTful API
 Interactive web interface
 End-to-end workflow testing
 Technology Stack
-Backend
+**Backend**
 Python
 FastAPI
 SQLAlchemy
 PostgreSQL
-Frontend
+**Frontend**
 HTML
 CSS
 JavaScript
-Development Tools
+**Development Tools**
 Git
 GitHub
 Swagger / OpenAPI
-System Architecture
-Web Frontend
+**System Architecture**
+ Web Frontend
      |
      v
-FastAPI REST API
+ FastAPI REST API
      |
      v
-Business Logic
+ Business Logic
      |
      v
-PostgreSQL Database
-Core Workflow
-User Login
+ PostgreSQL Database
+ 
+**Core Workflow**
+ User Login
     |
     v
-Dashboard
+ Dashboard
     |
     +----> Products
     |
@@ -62,7 +63,7 @@ Dashboard
               |
               v
        Dashboard Updated
-API Endpoints
+**API Endpoints**
 Method	Endpoint	Description
 GET	/	API status
 POST	/login	User authentication
@@ -73,20 +74,22 @@ POST	/inventory	Add inventory
 GET	/sales	Retrieve sales
 POST	/sales	Create sale
 GET	/dashboard	Retrieve dashboard metrics
-Project Structure
-FinSightERP/
-│
-├── backend/
-│   ├── main.py
-│   ├── database.py
-│   └── test_db.py
-│
-├── frontend/
-│   └── index.html
-│
-├── .gitignore
-└── README.md
-Testing
+
+**Project Structure**
+ FinSightERP/
+ │
+ ├── backend/
+ │   ├── main.py
+ │   ├── database.py
+ │   └── test_db.py
+ │
+ ├── frontend/
+ │   └── index.html
+ │
+ ├── .gitignore
+ └── README.md
+ 
+**Testing**
 
 The system was tested through end-to-end business workflows including:
 
@@ -99,6 +102,7 @@ Sales value calculation
 Dashboard updates
 Frontend-to-backend communication
 Backend-to-database communication
-Project Purpose
+
+**Project Purpose**
 
 The project demonstrates practical software engineering concepts including REST API development, relational database integration, backend business logic, frontend development, authentication, and end-to-end system testing.
